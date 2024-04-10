@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package users;
+
+option go_package = "github.com/kissjingalex/virtpay/internal/wallet;walletpb";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+service WalletService {
+  rpc CreateWalletBalance(CreateWalletBalanceRequest) returns (CreateWalletBalanceResponse) {}
+}
+
+message CreateWalletBalanceRequest {
+  string chain = 1;
+}
+
+message CreateWalletBalanceResponse {
+  string id = 1;
+  string chain = 2;
+  string address = 3;
+}
