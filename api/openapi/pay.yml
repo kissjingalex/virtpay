@@ -1,0 +1,70 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: wallet service
+  description: wallet service
+  contact:
+    name: alex
+    url: https://alex.tech/
+servers:
+  - url: https://{hostname}/api
+    variables:
+      hostname:
+        default: localhost
+security:
+  - bearerAuth: []
+paths:
+  /wallet/create:
+    post:
+      operationId: createWallet
+      requestBody:
+        description: createWallet
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WalletParams'
+      responses:
+        '200':
+          description: create wallet success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WalletInfo'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    WalletParams:
+      type: object
+      required: [chain]
+      properties:
+        chain:
+          type: string
+          example: TRON
+    WalletInfo:
+      type: object
+      properties:
+        uuid:
+          type: string
+        chain:
+          type: string
+        address:
+          type: string
+    Error:
+      type: object
+      required: [code,message]
+      properties:
+        code:
+          type: number
+        message:
+          type: string
